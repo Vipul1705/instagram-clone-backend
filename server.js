@@ -18,7 +18,7 @@ const pusher = new Pusher({
 
 //middleware
 app.use(express.json()); //passes the data in json through server
-app.use(cors()); //use for header handles the security
+app.use(cors({ origin:"https://instagram-app-8yq5.onrender.com"})); //use for header handles the security
 
 //db config
 const conn_url =
