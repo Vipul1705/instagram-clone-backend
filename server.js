@@ -9,10 +9,10 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const pusher = new Pusher({
-  appId: "1476877",
-  key: "key",
-  secret: "secret",
-  cluster: "ap2",
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
   useTLS: true,
 });
 
@@ -22,7 +22,7 @@ app.use(cors()); //use for header handles the security
 
 //db config
 const conn_url =
-  "mongodb+srv://<username>:<password>@cluster0.xoczi1w.mongodb.net/instaDB?retryWrites=true&w=majority";
+  `mongodb+srv://${process.env.MOONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.xoczi1w.mongodb.net/instaDB?retryWrites=true&w=majority`;
 
 mongoose.connect(conn_url, {
   useNewUrlParser: true,
