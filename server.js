@@ -22,7 +22,7 @@ app.use(cors({ origin:"https://instagram-app-8yq5.onrender.com"})); //use for he
 
 //db config
 const conn_url =
-  `mongodb+srv://${process.env.MOONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.xoczi1w.mongodb.net/instaDB?retryWrites=true&w=majority`;
+  `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.xoczi1w.mongodb.net/instaDB?retryWrites=true&w=majority`;
 
 mongoose.connect(conn_url, {
   useNewUrlParser: true,
