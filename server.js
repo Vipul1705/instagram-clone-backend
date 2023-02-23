@@ -3,8 +3,12 @@ import cors from "cors";
 import mongoose from "mongoose";
 import Pusher from "pusher";
 import dbModel from "./dbModel.js";
+import dotenv from "dotenv";
+import mongodb from "mongodb";
+
 
 //app config
+dotenv.config():
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -87,6 +91,27 @@ app.get("/sync", (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+});
+
+app.get("/post/comments/:id",(req,res)=>{
+  dbModel.findOne({_id:req.params.id})
+    .then((data)=>{res.status(200).send(data);})
+    .catch((err)=>{res.status(500).send(err);});
+});
+
+app.put("/add-comment/post/:id",(req,res)=>{
+  var newComment={
+    _id:mongodb.ObjectId(),
+    ...req.body.comment,
+  };
+  dbModel.updateOne(
+    {_id:req.params.id},
+    { $push:{ comments:newComment }},
+    (err,data)=>{
+      if(err) {
+        console.log(err);
+      }
+      res.status(200).send("Added SuccessFully!!");
 });
 
 //listen
