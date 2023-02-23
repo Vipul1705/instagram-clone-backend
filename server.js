@@ -6,7 +6,6 @@ import dbModel from "./dbModel.js";
 import dotenv from "dotenv";
 import mongodb from "mongodb";
 
-
 //app config
 dotenv.config();
 const app = express();
@@ -22,11 +21,17 @@ const pusher = new Pusher({
 
 //middleware
 app.use(express.json()); //passes the data in json through server
-app.use(cors({ origin:["https://instagram-app-8yq5.onrender.com","https://instagram-backend-buyl.onrender.com"]})); //use for header handles the security
+app.use(
+  cors({
+    origin: [
+      "https://instagram-app-8yq5.onrender.com",
+      "https://instagram-backend-buyl.onrender.com",
+    ],
+  })
+); //use for header handles the security
 
 //db config
-const conn_url =
-  `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.xoczi1w.mongodb.net/instaDB?retryWrites=true&w=majority`;
+const conn_url = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.xoczi1w.mongodb.net/instaDB?retryWrites=true&w=majority`;
 
 mongoose.connect(conn_url, {
   useNewUrlParser: true,
@@ -93,25 +98,32 @@ app.get("/sync", (req, res) => {
     });
 });
 
-app.get("/post/comments/:id",(req,res)=>{
-  dbModel.findOne({_id:req.params.id})
-    .then((data)=>{res.status(200).send(data);})
-    .catch((err)=>{res.status(500).send(err);});
+app.get("/post/comments/:id", (req, res) => {
+  dbModel
+    .findOne({ _id: req.params.id })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 });
 
-app.put("/add-comment/post/:id",(req,res)=>{
-  var newComment={
-    _id:mongodb.ObjectId(),
+app.put("/add-comment/post/:id", (req, res) => {
+  var newComment = {
+    _id: mongodb.ObjectId(),
     ...req.body.comment,
   };
   dbModel.updateOne(
-    {_id:req.params.id},
-    { $push:{ comments:newComment }},
-    (err,data)=>{
-      if(err) {
+    { _id: req.params.id },
+    { $push: { comments: newComment } },
+    (err, data) => {
+      if (err) {
         console.log(err);
       }
       res.status(200).send("Added SuccessFully!!");
+    }
+  );
 });
 
 //listen
