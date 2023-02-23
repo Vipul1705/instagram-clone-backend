@@ -8,7 +8,7 @@ import mongodb from "mongodb";
 
 
 //app config
-dotenv.config():
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 8080;
 
